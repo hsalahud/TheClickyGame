@@ -117,7 +117,7 @@ class App extends Component {
     else {
       this.setState({ correct: false, openCorrect: false, openWrong: false })
     }
-    console.log(this.state)
+    // console.log(this.state)
   }
 
   handleHighScore = _ => {
@@ -159,11 +159,11 @@ class App extends Component {
       
      
     }else {
-      const trueCharacters = characters.filter(character => character.id === event.target.id)
-      trueCharacters.forEach(character => {
+      // const trueCharacters = characters.filter(character => character.id === event.target.id)
+      characters.forEach(character => {
         character.selected=false
       })
-      this.setState({characters, score: 0, correct: false})
+      this.setState({characters, score: 0, correct: false}, () => {console.log(this.state.characters)})
       // console.log(this.state.characters)
 
       
