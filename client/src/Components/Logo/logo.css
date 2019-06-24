@@ -1,0 +1,34 @@
+.root {
+  /* margin-top: 0%; */
+  display: flex;
+  flex-grow: 1
+}
+
+#logo {
+  width: 50%
+}
+
+@media screen and (max-width: 900px){
+
+  /* This is the dimensions of the area between the header and footer. */
+  .root {
+    margin-top: 10%;
+    display: flex;
+    flex-grow: 1
+}
+  #logo {
+    width: 80%
+  }
+}
+
+#subtitle {
+  position: absolute;
+  bottom: 8px;
+  right: 400px;
+}
+
+#logoContainer {
+  position: relative;
+  text-align: center;
+  color: white;
+}
