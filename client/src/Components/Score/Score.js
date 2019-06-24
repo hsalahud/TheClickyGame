@@ -2,8 +2,6 @@ import React from 'react'
 import './score.css'
 
 const Score = ({score, highScore})=> {
-  console.log(score)
-  console.log(highScore)
   return (
     <div>
 
