@@ -135,7 +135,9 @@ class App extends Component {
         score: this.state.score+1,
         correct: true
       }
-    }, () => {this.handleHighScore()})
+    }, () => {this.handleHighScore()
+    console.log(this.state)
+    })
      
   }
 

@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/hsalahud/TheClickyGame/issues"
   },
-  "homepage": "https://github.com/hsalahud/TheClickyGame#readme",
+  "homepage": "https://github.com/hsalahud/TheClickyGame",
   "dependencies": {
     "react": "^16.8.6"
   }
