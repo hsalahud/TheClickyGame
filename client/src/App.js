@@ -8,11 +8,17 @@ import Characters from './Components/Characters'
 
 class App extends Component {
   state = {
+    //correct will turn on the shake div styling if it is false
     correct: true,
+    //a correct answer popup will appear when openCorrect is set to true
     openCorrect: false,
+    //a wrong answer popup will appear when openWrong is set to true
     openWrong: false,
+    //tracking our current score
     score: 0,
+    //Keeping track of the highest score we achieved
     highScore: 0,
+    //our characters as a list of objects
     characters: [
       {
         path: 'alter-egos-professor-chaos.png',
@@ -97,18 +103,19 @@ class App extends Component {
     ]
   }
 
+  //I got this function from material UI. When the correct/wrong answer popups have to close, they run this function which sets openCorrect and openWrong to false
   handleClose = (event, reason) => {
-
-
     if (reason === 'clickaway') {
       return;
     }
-
     this.setState({ openCorrect: false, openWrong: false });
-
   }
 
+  //This function determines whether we will trigger openCorrect or openWrong feedback
   handleTriggerFeedback = event => {
+    //each character has a selected key which has either true or false as the value. True means it was selected previously and so you will get the wrong answer feedback.
+    //false means it was never selected and you will get the correct answer feedback.
+    //at the same time we set our value of correct, which will apply the shake div styuling when we had previously clicked on a character
     if (event.target.selected === false) {
       this.setState({ correct: true, openCorrect: true, openWrong: false })
     } else if (event.target.selected === true) {
@@ -117,9 +124,9 @@ class App extends Component {
     else {
       this.setState({ correct: false, openCorrect: false, openWrong: false })
     }
-    // console.log(this.state)
   }
 
+  //This function keeps track of our high score.
   handleHighScore = _ => {
     this.setState(state => {
       return{
@@ -129,6 +136,10 @@ class App extends Component {
      
   }
 
+  // https://www.freecodecamp.org/news/get-pro-with-react-setstate-in-10-minutes-d38251d1c781/
+  //This function handles our current score.
+  //I used this form of handling state so that it is no longer asynchronous and that it is updating the state given the current value
+  //The website above points that we should do this if we are changing state when it depends on the current state
   handleScore = _ => {
     this.setState(state => {
       return{
@@ -141,44 +152,35 @@ class App extends Component {
      
   }
 
+//This function changes the value of the key selected for each character you select to true. It only does that if it was previously set at false
+//if it is set to true and you click on it, then you lose. Here we reset the score to 0
   handleSelected = event => {
-
     let characters = JSON.parse(JSON.stringify(this.state.characters))
     if(event.target.selected===false){
       const character = characters.filter(character => character.id === event.target.id)[0]
       character.selected=true
-      // console.log(character)
-      // console.log(characters)
-      // console.log(this.state.characters)
       this.setState({characters})
-      // console.log(this.state.characters)
-      // this.handleHighScore()
+      //every time we selected a character that was not previously selected, we run the functions which handle scores
       this.handleScore()
-      this.handleHighScore()
-      // console.log(this.state)
-      
-     
+      this.handleHighScore() 
     }else {
-      // const trueCharacters = characters.filter(character => character.id === event.target.id)
       characters.forEach(character => {
         character.selected=false
       })
-      this.setState({characters, score: 0, correct: false}, () => {console.log(this.state.characters)})
-      // console.log(this.state.characters)
-
-      
+      this.setState({characters, score: 0, correct: false}, () => {console.log(this.state.characters)}) 
     }
-    
   }
 
+//this function runs a series of functions (created above) when we click on a charact
   handleOnClick = event => {
-
     this.handleTriggerFeedback(event)
+    //this function is defined below
     this.randomizeCharacters()
     this.handleSelected(event)
-
   }
 
+//I got this function from https://gomakethings.com/how-to-shuffle-an-array-with-vanilla-js/
+//it shuffles the elements in an array
   shuffle =  (array) => {
 
     let currentIndex = array.length;
@@ -200,14 +202,16 @@ class App extends Component {
   
   };
 
+  //we use the shuffle function and pass in our characters in it.
   randomizeCharacters = _ => {
-    let characters = this.state.characters
+    let characters = JSON.parse(JSON.stringify(this.state.characters))
 
     this.shuffle(characters)
 
     this.setState({characters})
   }
 
+  //This ensures that our array of characters is always shuffled when we mount the component/when the div loads
   componentDidMount = _ => {
     this.randomizeCharacters()
   }
@@ -223,12 +227,6 @@ class App extends Component {
         <Logo />
         <Score score={score} highScore={highScore} />
         <Characters characters={characters} handleOnClick={this.handleOnClick} correct = {correct} />
-        {/* <button id='hello' className='buttons' onClick={this.handleClose}>
-          <h1 id='hello'>HELLO</h1>
-        </button>
-        <button id='bye' className='buttons' onClick={this.handleClose}>
-          <h1 id='bye'>BYE</h1>
-        </button> */}
       </>
     )
   }
