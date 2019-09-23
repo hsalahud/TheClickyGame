@@ -147,7 +147,7 @@ class App extends Component {
         correct: true
       }
     }, () => {this.handleHighScore()
-    console.log(this.state.characters)
+    // console.log(this.state.characters)
     })
      
   }
@@ -156,18 +156,21 @@ class App extends Component {
 //if it is set to true and you click on it, then you lose. Here we reset the score to 0
   handleSelected = event => {
     let characters = JSON.parse(JSON.stringify(this.state.characters))
+    // this.randomizeCharacters()
     if(event.target.selected===false){
       const character = characters.filter(character => character.id === event.target.id)[0]
       character.selected=true
-      this.setState({characters})
+      this.setState({characters}, () => {this.randomizeCharacters()})
       //every time we selected a character that was not previously selected, we run the functions which handle scores
       this.handleScore()
       this.handleHighScore() 
+      // this.randomizeCharacters()
     }else {
       characters.forEach(character => {
         character.selected=false
       })
-      this.setState({characters, score: 0, correct: false}, () => {console.log(this.state.characters)}) 
+      this.setState({characters, score: 0, correct: false}, () => {this.randomizeCharacters()}) 
+      // this.randomizeCharacters()
     }
   }
 
@@ -175,7 +178,7 @@ class App extends Component {
   handleOnClick = event => {
     this.handleTriggerFeedback(event)
     //this function is defined below
-    this.randomizeCharacters()
+    // this.randomizeCharacters()
     this.handleSelected(event)
   }
 
@@ -197,18 +200,20 @@ class App extends Component {
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
-  
+  console.log("shuffle!")
     return array;
   
   };
 
   //we use the shuffle function and pass in our characters in it.
   randomizeCharacters = _ => {
+    console.log('hi')
     let characters = JSON.parse(JSON.stringify(this.state.characters))
 
     this.shuffle(characters)
 
-    this.setState({characters})
+    this.setState({characters: characters})
+    console.log(this.state.characters)
   }
 
   //This ensures that our array of characters is always shuffled when we mount the component/when the div loads
